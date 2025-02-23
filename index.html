@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* The invitation card with a popup effect */
+    .invitation-card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 350px;
+      transform: scale(0);
+      opacity: 0;
+      animation: popupAnimation 1s ease-out forwards;
+      cursor: pointer;
+    }
+
+    /* Hover effects for card */
+    .invitation-card:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 36px;
+      margin-bottom: 10px;
+      font-family: 'Brush Script MT', cursive;
+      animation: bounceText 1.5s ease infinite alternate;
+    }
+
+    p {
+      color: #555;
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    h2 {
+      color: #d6336c;
+      font-size: 30px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    /* RSVP Button animation */
+    .rsvp-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #d6336c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInButton 2s forwards;
+    }
+
+    .rsvp-btn:hover {
+      background-color: #b02555;
+      transform: translateY(0) scale(1.05);
+    }
+
+    /* Popup effect */
+    @keyframes popupAnimation {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Bounce effect for title text */
+    @keyframes bounceText {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* Fade-in for RSVP Button */
+    @keyframes fadeInButton {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Confetti effect */
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .confetti .particle {
+      position: absolute;
+      background-color: #ffdd57;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: confettiAnimation 3s infinite;
+    }
+
+    @keyframes confettiAnimation {
+      0% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(300px) rotate(180deg);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(600px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Balloon animation */
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      animation: floatUp 5s ease-in infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        bottom: -100px;
+        transform: rotate(0deg);
+      }
+      100% {
+        bottom: 100%;
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="invitation-card" onclick="showDetails()">
+    <h1>Wellcome All</h1>
+    <!-- <p>To a Fun Birthday Party of</p> -->
+    <h2>Arunkumar & Archatha</h2>
+    <p id="details" style="display: none;">
+      Date: Wednesday, April 09, 2025 <br>
+      Venue: Bharathi Hall, Ammachatram <br>
+      Time: 9:00 AM Onwards
+    </p>
+    <button class="rsvp-btn" id="rsvpBtn" style="display: none;">RSVP Now</button>
+  </div>
+
+  <!-- Confetti effect container -->
+  <div id="confetti" class="confetti"></div>
+
+  <!-- Balloons -->
+  <div id="balloons">
+    <div class="balloon" style="left: 10%; background-color: #ff5e5b;"></div>
+    <div class="balloon" style="left: 30%; background-color: #ffa600;"></div>
+    <div class="balloon" style="left: 50%; background-color: #3a9bde;"></div>
+    <div class="balloon" style="left: 70%; background-color: #6a2b91;"></div>
+    <div class="balloon" style="left: 90%; background-color: #f28d29;"></div>
+  </div>
+
+  <script>
+    // Create confetti particles
+    function createConfetti() {
+      const confettiContainer = document.getElementById('confetti');
+      for (let i = 0; i < 100; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        // Randomize the position of each particle
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 2 + 3}s`;
+        confettiContainer.appendChild(particle);
+      }
+    }
+
+    function showDetails() {
+      const details = document.getElementById('details');
+      const rsvpBtn = document.getElementById('rsvpBtn');
+
+      if (details.style.display === 'none') {
+        details.style.display = 'block';
+        rsvpBtn.style.display = 'inline-block';
+
+        // Trigger confetti
+        createConfetti();
+      } else {
+        details.style.display = 'none';
+        rsvpBtn.style.display = 'none';
+      }
+    }
+
+  </script>
+
+</body>
+</html>
